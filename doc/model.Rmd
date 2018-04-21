@@ -1,0 +1,138 @@
+---
+title: "model"
+author: "Xiaoxiao Guo"
+date: "4/21/2018"
+output: html_document
+---
+
+```{r, message = FALSE}
+## load required libraries
+library(lubridate)
+library(caret)
+library(dplyr)
+library(DMwR)
+library(ROSE)
+library(ggplot2)
+library(randomForest)
+library(rpart)
+library(rpart.plot)
+library(data.table)
+library(e1071)
+library(gridExtra)
+```
+
+```{r, message = FALSE}
+# load data
+load("../output/train.RData")
+```
+
+## Data partition for selected features
+```{r, message = FALSE}
+## Divide the data into training and testing data
+train$days <- NULL
+train$os <- NULL
+train$device <- NULL
+
+set.seed(1234)
+ind <- createDataPartition(train$is_attributed, times = 1, p = 0.8, list = FALSE)
+train_val <- train[ind, ]
+test_val <- train[-ind, ]
+
+#### Check the proprtion (they should be the same)
+round(prop.table(table(train$is_attributed)*100), digits = 3)
+round(prop.table(table(train_val$is_attributed)*100), digits = 3)
+round(prop.table(table(test_val$is_attributed)*100), digits = 3)
+```
+
+##Data Balancing using Smote
+
+```{r, message = FALSE}
+## Apply smote to balance the data
+set.seed(1234)
+smote_train <- SMOTE(is_attributed ~ ., data  = train_val)                         
+table(smote_train$is_attributed) 
+```
+
+
+## Machine learning algorithms and cross validation for selected features
+
+### Decision tree
+```{r, message = FALSE}
+set.seed(1234)
+cv.3 <- createMultiFolds(smote_train$is_attributed, k = 3,   
+                         times = 3)
+
+# Control
+ctrl <- trainControl(method = "repeatedcv", number = 3,   
+                     repeats = 3,
+                     index = cv.3)
+
+set.seed(1234)
+##Train the data
+Model_CDT <- train(x = smote_train[, -4], y = smote_train[, 4],  
+                   method = "rpart", tuneLength = 30,
+                   trControl = ctrl)
+
+rpart.plot(Model_CDT$finalModel, extra = 3, fallen.leaves = T)
+
+
+PRE_VDTS <- predict(Model_CDT$finalModel,   
+                    newdata = test_val, type ="class")
+confusionMatrix(PRE_VDTS, test_val$is_attributed)
+```
+
+### Random forest
+
+```{r, message = FALSE}
+set.seed(1234)
+##Train the data
+rf <- train(x = smote_train[, -4], y = smote_train[, 4],   
+            method = "rf", tuneLength = 3,
+             ntree = 100, trControl = ctrl)
+
+rf
+
+pr.rf <- predict(rf, newdata = test_val)
+
+confusionMatrix(pr.rf, test_val$is_attributed)
+```
+
+### Support Vector Machine
+#### Linear Support vector Machine
+
+```{r, message = FALSE}
+
+##Tune the cost Parameter
+
+set.seed(1234)
+liner.tune <- tune.svm(is_attributed ~., data = smote_train, kernel = "linear",   
+                       cost = c(0.1, 0.5, 1, 5, 10, 50))
+
+liner.tune
+
+best.linear <- liner.tune$best.model
+
+##Predict
+
+best.test <- predict(best.linear, newdata = test_val, type ="class")
+confusionMatrix(best.test, test_val$is_attributed)
+```
+
+#### Radial Support vector Machine
+
+```{r, message = FALSE}
+
+## non liner SVM (Radial Kerenl)
+
+set.seed(1234)
+rd.poly <- tune.svm(is_attributed ~., data = smote_train, kernel = "radial", gamma = seq(0.1, 5))
+
+summary(rd.poly)
+
+best.rd <- rd.poly$best.model
+
+## Predict
+pre.rd <- predict(best.rd, newdata = test_val)
+
+confusionMatrix(pre.rd, test_val$is_attributed)
+```

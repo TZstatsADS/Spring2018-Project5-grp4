@@ -1,0 +1,306 @@
+---
+title: 'EDA + Model'
+author: 'Xiaoxiao Guo'
+date: '21st April 2018'
+output: 
+  html_notebook: default
+
+---
+  
+
+## Data loading and consolidation
+
+```{r, message = FALSE}
+## load required libraries
+library(lubridate)
+library(caret)
+library(dplyr)
+library(DMwR)
+library(ROSE)
+library(ggplot2)
+library(randomForest)
+library(rpart)
+library(rpart.plot)
+library(data.table)
+library(e1071)
+library(gridExtra)
+
+###Read the data and check the structure of both train and test
+
+#train <-fread('../data/sampled_train350.csv', stringsAsFactors = FALSE, data.table = FALSE)
+#test <-fread('../data/test.csv', stringsAsFactors = FALSE, data.table = FALSE)
+#train1 <- fread('../data/train0.csv', stringsAsFactors = FALSE, data.table = FALSE)
+#train <- rbind(train, train1)
+#remove(train1)
+#write.csv(train, "../data/train.csv")
+#train <- fread('../data/train.csv', stringsAsFactors = FALSE, data.table = FALSE)
+#train <- train[, -1]
+#str(train)
+#str(test)
+```
+
+## Missing value checking and estimation
+
+```{r, message = FALSE}
+#colSums(is.na(train))
+#table(train$is_attributed)
+
+## Blank entries in Attributes_time is matching with Application not downlaoded in train data.
+## And also notice that, this variable is not present in test data, so no point of keeping it in the train data too
+
+#train$attributed_time <- NULL
+```
+
+## Feature engineering
+```{r, message = FALSE}
+##Convert click_time into proper date and time format
+#train$click_time <- as.POSIXct(train$click_time,format = "%Y-%m-%d %H:%M",tz = "America/New_York")
+
+#train$year <- year(train$click_time)
+#train$month <- month(train$click_time)
+#train$days <- weekdays(train$click_time)
+#train$hour <- hour(train$click_time)
+#head(train)
+
+## Remove original "click_time" variable
+
+#train$click_time <- NULL
+
+## Check the unique number for each of the feauter
+#apply(train, 2, function(x) length(unique(x)))
+
+## By looking into unique value, we can see data collected for one month in a year, so no point of keeping month and year variables
+
+#train$month <- NULL
+#train$year <- NULL
+
+##Convert variables into respective data type
+
+#train$is_attributed <- as.factor(train$is_attributed)
+#train$days <- as.factor(train$days)
+#save(train, file = "../output/train.RData")
+#save(test, file = "../output/test.RData")
+load("../output/train.RData")
+load("../output/test.RData")
+```
+
+## Exploratory data analysis and checking importance of feature
+
+```{r, message = FALSE}
+
+###App was downloaded v/s App id for marketing
+
+p1 <- ggplot(train, aes(x = is_attributed, y = app,   
+                        fill = is_attributed)) +
+  geom_boxplot() +
+  ggtitle("Application ID v/s Is_attributed") +
+  xlab("App ID") +
+  labs(fill = "is_attributed")  
+
+p2 <- ggplot(train, aes(x = app,fill = is_attributed)) +
+  geom_density() + 
+  facet_grid(is_attributed~.) +
+  scale_x_continuous(breaks = c(0,50,100,200,300,400)) +
+  ggtitle("Application ID v/s Is_attributed") +
+  xlab("App ID") +
+  labs(fill = "is_attributed")  
+
+
+p3 <- ggplot(train, aes(x = is_attributed, y = app,   
+                        fill = is_attributed)) +
+  geom_violin() +
+  ggtitle("Application ID v/s Is_attributed") +
+  xlab("App ID") +
+  labs(fill = "is_attributed")  
+
+
+grid.arrange(p1, p2, p3, nrow = 2, ncol = 2)
+
+## Observe Different pattern and shape in all the graph of App was downloaded v/s App id in the market, especially clear differentiation in Boxplot
+## This is definitely going to be one of the important feature to differentiate user downloaded the application or not
+```
+
+```{r, message = FALSE}
+
+###App was downloaded vs OS version id of user mobile phone
+p4 <- ggplot(train, aes(x = is_attributed, y = os,   
+                        fill = is_attributed)) +
+  geom_boxplot() +
+  ggtitle("Os version v/s Is_attributed") +
+  xlab("OS version") +
+  labs(fill = "is_attributed")  
+
+
+p5 <- ggplot(train, aes(x = os,fill = is_attributed)) +
+  geom_density() +  
+  facet_grid(is_attributed ~.) +
+  scale_x_continuous(breaks = c(0,50,100,200,300,400)) +
+  ggtitle("Os version v/s Is_attributed ") +
+  xlab("Os version") +
+  labs(fill = "is_attributed")
+
+
+p6 <- ggplot(train, aes(x = is_attributed, y = os,   
+                        fill = is_attributed)) +
+  geom_violin() +
+  ggtitle("Os version v/s Is_attributed") +
+  xlab("Os version") +
+  labs(fill = "is_attributed")  
+
+
+grid.arrange(p4, p5, p6, nrow = 2, ncol = 2)
+
+####No such differentiation exist between 2 classes, this is definitely not an important feature for prediction
+```
+
+```{r, message = FALSE}
+
+###App was downloaded v/s ip address of click.
+p7 <- ggplot(train, aes(x = is_attributed, y = ip,   
+                        fill = is_attributed)) +
+  geom_boxplot() +
+  ggtitle("IP Address v/s Is_attributed") +
+  xlab("Ip Adresss of click") +
+  labs(fill = "is_attributed")  
+
+
+p8 <- ggplot(train, aes(x = ip, fill = is_attributed)) +
+  geom_density() +  
+  facet_grid(is_attributed ~.) +
+  scale_x_continuous(breaks = c(0, 50, 100, 200, 300, 400)) +
+  ggtitle("IP Address v/s Is_attributed") +
+  xlab("Ip Adresss of click") +
+  labs(fill = "is_attributed")  
+
+
+p9 <- ggplot(train, aes(x = is_attributed, y = ip, fill = is_attributed)) +
+  geom_violin() +
+  ggtitle("IP Address v/s Is_attributed") +
+  xlab("Ip Adresss of click") +
+  labs(fill = "is_attributed")  
+
+grid.arrange(p7, p8, p9, nrow = 2, ncol = 2)
+
+
+####IP Address definitely could play very important role in prediction as clear diffrenation exist between 2 groups
+```  
+
+```{r, message = FALSE}
+
+###App was downloaded v/s device type id of user mobile phone
+
+p10 <- ggplot(train, aes(x = is_attributed, y = device,   
+                         fill = is_attributed)) +
+  geom_boxplot() +
+  ggtitle("Device type v/s Is_attributed") +
+  xlab("Device Type ID") +
+  labs(fill = "is_attributed") 
+
+
+p11 <- ggplot(train, aes(x = device, fill = is_attributed)) +
+  geom_density() +  
+  facet_grid(is_attributed ~.) +
+  ggtitle("Device type v/s Is_attributed") +
+  xlab("Device Type ID") +
+  labs(fill = "is_attributed")  
+
+ 
+p12 <- ggplot(train, aes(x = is_attributed, y = device,   
+                         fill = is_attributed)) +
+  geom_violin() +
+  ggtitle("Device type v/s Is_attributed") +
+  xlab("Device Type ID") +
+  labs(fill = "is_attributed")  
+
+grid.arrange(p10, p11, p12, nrow = 2, ncol = 2)
+
+##No such differentiation exist between the group, not an important variable for our analysis
+```
+
+```{r, message = FALSE}
+
+###App was downloaded v/s channel id of mobile ad publisher
+
+p13 <- ggplot(train, aes(x = is_attributed, y = channel,   
+                         fill = is_attributed)) +
+  geom_boxplot() +
+  ggtitle("Channel v/s Is_attributed") +
+  xlab("Channel of mobile") +
+  labs(fill = "is_attributed")  
+
+
+p14 <- ggplot(train, aes(x = channel, fill = is_attributed)) +
+  geom_density()+  
+  facet_grid(is_attributed ~.) +
+  ggtitle("Channel v/s Is_attributed") +
+  xlab("Channel of mobile") +
+  labs(fill = "is_attributed")  
+
+
+p15 <- ggplot(train, aes(x = is_attributed, y = channel,   
+                         fill = is_attributed)) +
+  geom_violin() +
+  ggtitle("Channel v/s Is_attributed") +
+  xlab("Channel of mobile") +
+  labs(fill = "is_attributed")  
+
+grid.arrange(p13, p14, p15, nrow = 2, ncol = 2)
+
+###Channel definitely got some predictive power, definitely we can use this for our feature analysis
+```
+
+```{r, message = FALSE}
+
+###Does specific hour play any role in downloading? 
+
+p16 <- ggplot(train, aes(x = is_attributed, y = hour,   
+                         fill = is_attributed)) +
+  geom_boxplot() +
+  ggtitle("Hour v/s Is_attributed") +
+  xlab("Hour") +
+  labs(fill = "is_attributed")  
+
+p17 <- ggplot(train, aes(x = hour, fill = is_attributed)) +
+  geom_density() +  
+  facet_grid(is_attributed ~.) +
+  ggtitle("Hour v/s Is_attributed ") +
+  xlab("Hour") +
+  labs(fill = "is_attributed")  
+
+p18 <- ggplot(train, aes(x = is_attributed, y = channel, fill = is_attributed)) +
+  geom_violin() +
+  ggtitle("Hour v/s Is_attributed") +
+  xlab("Hour") +
+  labs(fill = "is_attributed")  
+
+grid.arrange(p16, p17, p18, nrow = 2, ncol = 2)
+
+
+##There is slight difference in both the distribution, we can say least important feature
+```
+
+```{r, message = FALSE}
+
+###Does Particular day play any role in downloading application?
+
+p19 <- ggplot(train, aes(x = days, fill = is_attributed)) +
+  geom_density() +  
+  facet_grid(is_attributed ~.) +
+  ggtitle("Day of a week v/s Is_attributed ") +
+  xlab("Os version") +
+  labs(fill = "is_attributed")  
+
+
+p20 <- ggplot(train, aes(x = days, fill = is_attributed)) +
+  geom_density(col = NA, alpha = 0.35) +
+  ggtitle("days v/s click") +
+  xlab("Day of a week v/s Is_attributed ") +
+  ylab("Total Count") +
+  labs(fill = "is_attributed")  
+
+grid.arrange(p19, p20, ncol = 2)
+
+###Seems nothing in day variable
+```
+
+**Conclusion: After EDA, we select ip, app, channel, hour as our predictors.**  
