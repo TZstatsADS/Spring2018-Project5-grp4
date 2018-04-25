@@ -30,6 +30,9 @@ Term: Spring 2018
 
 + Wenshan Wang (ww2468): Implemented XGBoost model, wrote ppt and made presentation.
 
+**Reference**:
++ https://www.kaggle.com/swamysm/fraud-detection-by-random-forest-dt-and-svm
+
 Following [suggestions](http://nicercode.github.io/blog/2013-04-05-projects/) by [RICH FITZJOHN](http://nicercode.github.io/about/#Team) (@richfitz). This folder is orgarnized as follows.
 
 ```
