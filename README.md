@@ -10,14 +10,14 @@ Term: Spring 2018
 ![image](figs/eda_app.png)
 ![image](figs/eda_hour.png)
 
-+ Team members
+**Team members**:
 	+ Zhongxing Xue zx2221@columbia.edu
 	+ Junkai Zhang jz2929@columbia.edu
 	+ Xiaoxiao Guo xg2282@columbia.edu
 	+ Sitong Chen sc4283@columbia.edu
 	+ Wenshan Wang ww2468@columbia.edu
 
-+ Project summary:
+**Project summary**:
   + Click fraud occurs on the Internet in pay-per-click (PPC) online advertising. It occurs when a person, automated script or computer program imitates a legitimate user to click on ad. For companies that advertise online, click fraud can happen at an overwhelming volume, resulting in misleading click data and wasted money. According to TalkingData, 90% of clicks are potentially fraudulent.
   + In this project, we predict whether a user will download an app after clicking a mobile app ad. To do this prediction, we implemented XGBoost, random forest, decision tree, naive bayesian and lightgbm model on our dataset. Also, to weaken the influence of imbalanced data, we tried smote algorithm to balance the data.
 
