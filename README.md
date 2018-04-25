@@ -5,8 +5,8 @@ Term: Spring 2018
 + Team #4
 + Project title: AdTracking Fraud Detection-Detect fraudulent click traffic for mobile app ads-
 
-![image](figs/Title.jpg)
-![image](figs/Feature.jpg)
+![image](figs/Title.png)
+![image](figs/Feature.png)
 
 + Team members
 	+ Zhongxing Xue zx2221@columbia.edu
