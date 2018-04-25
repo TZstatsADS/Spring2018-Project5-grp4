@@ -1,20 +1,13 @@
 ### A Note on Contributions
+Project 5: AdTracking Fraud Detection
+Team #4
+Team members: Zhongxing Xue, Junkai Zhang, Xiaoxiao Guo, Sitong Chen, Wenshan Wang
 
-Whenever we have team projects, there are always concerns on unequal contributions from members of a project team. In the ideal world, we are all here to put in our best efforts and learn together. Even in that ideal world, we have different skill sets and preparations, and we will still contribute differently to a project. 
+Summary: In this project, we implemented models to predict whether a user will download an app after clicking a mobile app ad. By doing this, we hope to help app developers detecting and avoiding click fraud to save cost and obtain an accurate market feedback.
 
-Therefore, you are required to post a *contribution statement* in the root README.md of your GitHub repo. Please beware that your GitHub repo will become public and remain public after the due date of the projects. 
-
-Post your title, team members, project abstract and a contribution statement in the README.md file.  This is a common practice for research scientific journals. 
-
-Below is an example. If no contribution statement is provided, we will insert a default statement that goes "**All team members contributed equally in all stages of this project. All team members approve our work presented in this GitHub repository including this contributions statement**. "
-
----
-Sample project README statement.
-
-Project xxx
-
-Team members: Avi Bond, Comma Deed, En Funn, Gem Hon
-
-Summary: In this project, we developed a new method and improved the classification accuracy for images of cats and dogs to 99.9%
-
-[Contribution Statement] AB, CD, EF and GH designed the study. AB and CD developed baseline classification model for evaluation. EF and GH explored feature engineering for improving the baseline model. AB, EF and GH discussed and designed the model evaluation protocol. CD carried out the computation for model evaluation. All team members contributed to the GitHub repository and prepared the presentation. All team members approve our work presented in our GitHub repository including this contribution statement.
+[Contribution Statement]
+Zhongxing Xue(zx2221): Implemented naive bayesian model, conducted EDA, conducted data processing, and used tableau to generate plots.
+Junkai Zhang (jz2929): Implemented XGBoost model, wrote main files and summarized functions and models.
+Xiaoxiao Guo (xg2282): Implemented random forest and decision tree, conducted EDA.
+Sitong Chen (sc4283): Implemented lightGBM model, made ppt and wrote readme file.
+Wenshan Wang (ww2468): Implemented XGBoost model, wrote ppt and made presentation.
