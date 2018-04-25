@@ -10,7 +10,7 @@ Term: Spring 2018
 ![image](figs/eda_app.png)
 ![image](figs/eda_hour.png)
 
-**Team members**:
++Team members:
 	+ Zhongxing Xue zx2221@columbia.edu
 	+ Junkai Zhang jz2929@columbia.edu
 	+ Xiaoxiao Guo xg2282@columbia.edu
