@@ -1,28 +1,35 @@
-# ADS Project 5: 
+# ADS Project 5: AdTracking Fraud Detection
 
 Term: Spring 2018
 
-+ Team #
-+ Projec title: Lorem ipsum dolor sit amet
++ Team #4
++ Project title: AdTracking Fraud Detection-Detect fraudulent click traffic for mobile app ads-
+
+![image](figs/Title.jpg)
+![image](figs/Feature.jpg)
+
 + Team members
-	+ team member 1
-	+ team member 2
-	+ team member 3
-	+ team member 4
-	+ team member 5
-+ Project summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-	
+	+ Zhongxing Xue zx2221@columbia.edu
+	+ Junkai Zhang jz2929@columbia.edu
+	+ Xiaoxiao Guo xg2282@columbia.edu
+	+ Sitong Chen sc4283@columbia.edu
+	+ Wenshan Wang ww2468@columbia.edu
+
++ Project summary:
+Click fraud occurs on the Internet in pay-per-click (PPC) online advertising. It occurs when a person, automated script or computer program imitates a legitimate user to click on ad. For companies that advertise online, click fraud can happen at an overwhelming volume, resulting in misleading click data and wasted money. According to TalkingData, 90% of clicks are potentially fraudulent.
+In this project, we implemented models to predict whether a user will download an app after clicking a mobile app ad. By doing this, we hope to flag IP addresses who produce lots of clicks, but never end up installing apps. Our final goal is to help app developers detecting and avoiding click fraud to save cost and obtain an accurate market feedback.
+
 **Contribution statement**: ([default](doc/a_note_on_contributions.md)) All team members contributed equally in all stages of this project. All team members approve our work presented in this GitHub repository including this contributions statement. 
 
 Following [suggestions](http://nicercode.github.io/blog/2013-04-05-projects/) by [RICH FITZJOHN](http://nicercode.github.io/about/#Team) (@richfitz). This folder is orgarnized as follows.
 
 ```
 proj/
-├── lib/
-├── data/
-├── doc/
-├── figs/
-└── output/
+????????? lib/
+????????? data/
+????????? doc/
+????????? figs/
+????????? output/
 ```
 
 Please see each subfolder for a README file.
