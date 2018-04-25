@@ -13,11 +13,11 @@ Term: Spring 2018
 
 **Team member**:
 
-	+ Zhongxing Xue zx2221@columbia.edu
-	+ Junkai Zhang jz2929@columbia.edu
-	+ Xiaoxiao Guo xg2282@columbia.edu
-	+ Sitong Chen sc4283@columbia.edu
-	+ Wenshan Wang ww2468@columbia.edu
++ Zhongxing Xue zx2221@columbia.edu
++ Junkai Zhang jz2929@columbia.edu
++ Xiaoxiao Guo xg2282@columbia.edu
++ Sitong Chen sc4283@columbia.edu
++ Wenshan Wang ww2468@columbia.edu
 
 **Project summary**:
   + Click fraud occurs on the Internet in pay-per-click (PPC) online advertising. It occurs when a person, automated script or computer program imitates a legitimate user to click on ad. For companies that advertise online, click fraud can happen at an overwhelming volume, resulting in misleading click data and wasted money. According to TalkingData, 90% of clicks are potentially fraudulent.
