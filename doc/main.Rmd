@@ -1,54 +1,55 @@
 ---
-title: "Project 5 - "
+title: "Project 5 - AdTracking Fraud Detection"
 author: "Team 4"
 date: "4/25/2017"
 output:
-  html_document: default
+  word_document: default
   pdf_document: default
+  html_document: default
 ---
 
 
 ## Step 0: Load the packages, and get the directories
 
-```{r}
-packages.used=c("lubridate","caret","dplyr","DMwR","ROSE","ggplot2","randomForest","rpart","rpart.plot","data.table","e1071","gridExtra","xgboost","haven","tidyverse","plyr","pROC","ROCR","data.table","DT","magrittr","corrplot","Rmisc","ggalluvial","ModelMetrics","scales","irlba","forcats","forecast","TSA","zoo")
-packages.needed=setdiff(packages.used, intersect(installed.packages()[,1], packages.used))
-if(length(packages.needed)>0){
-  install.packages(packages.needed, dependencies = TRUE)
-}
-# load packages
-library("lubridate")
-library("caret")
-library("dplyr")
-library("DMwR")
-library("ROSE")
-library("ggplot2")
-library("randomForest")
-library("rpart")
-library("rpart.plot")
-library("data.table")
-library("e1071")
-library("gridExtra")
-library("xgboost")
-library("haven")
-library("tidyverse")
-library("plyr")
-library("pROC")
-library("ROCR")
-library("data.table")
-library("DT")
-library("magrittr")
-library("corrplot")
-library("Rmisc")
-library("ggalluvial")
-library("ModelMetrics")
-require("scales")
-library("irlba")
-library("forcats")
-library("forecast")
-library("TSA")
-library("zoo")
-#library("lightgbm")
+```{r,warning=FALSE}
+# packages.used=c("lubridate","caret","dplyr","DMwR","ROSE","ggplot2","randomForest","rpart","rpart.plot","data.table","e1071","gridExtra","xgboost","haven","tidyverse","plyr","pROC","ROCR","data.table","DT","magrittr","corrplot","Rmisc","ggalluvial","ModelMetrics","scales","irlba","forcats","forecast","TSA","zoo")
+# packages.needed=setdiff(packages.used, intersect(installed.packages()[,1], packages.used))
+# if(length(packages.needed)>0){
+#   install.packages(packages.needed, dependencies = TRUE)
+# }
+# # load packages
+# library("lubridate")
+# library("caret")
+# library("dplyr")
+# library("DMwR")
+# library("ROSE")
+# library("ggplot2")
+# library("randomForest")
+# library("rpart")
+# library("rpart.plot")
+# library("data.table")
+# library("e1071")
+# library("gridExtra")
+# library("xgboost")
+# library("haven")
+# library("tidyverse")
+# library("plyr")
+# library("pROC")
+# library("ROCR")
+# library("data.table")
+# library("DT")
+# library("magrittr")
+# library("corrplot")
+# library("Rmisc")
+# library("ggalluvial")
+# library("ModelMetrics")
+# require("scales")
+# library("irlba")
+# library("forcats")
+# library("forecast")
+# library("TSA")
+# library("zoo")
+# library("lightgbm")
 ```
 
 ## Step 1: Load and process the data
@@ -387,10 +388,11 @@ timeend <- Sys.time()
 runningtime <- timeend - timestart
 return(list(evaluation = result, time = runningtime))
 }
-getwd()
 ```
 
 
 ## Step 4: Evaluation and Model Results
 
 We used ROC to measure the performance all the models. And Kaggle provides evaluation for the prediction of models. Here is the screenshot from Kaggle.
+
+![Screenshot from Kaggle](../figs/modelresult.png)
