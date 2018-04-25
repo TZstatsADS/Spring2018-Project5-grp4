@@ -33,6 +33,8 @@ Term: Spring 2018
 **Reference**:
 + https://www.kaggle.com/swamysm/fraud-detection-by-random-forest-dt-and-svm
 
++https://www.kaggle.com/pranav84/talkingdata-eda-to-model-evaluation-lb-0-9683
+
 Following [suggestions](http://nicercode.github.io/blog/2013-04-05-projects/) by [RICH FITZJOHN](http://nicercode.github.io/about/#Team) (@richfitz). This folder is orgarnized as follows.
 
 ```
