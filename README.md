@@ -4,7 +4,7 @@ Term: Spring 2018
 
 + Team #4
 + Project title: AdTracking Fraud Detection-Detect fraudulent click traffic for mobile app ads-
-+ Main file: [main.Rmd](doc/main.Rmd) or [the PDF version](doc/main.pdf). 
++ Main file: [main.Rmd](doc/main.Rmd) or [the PDF version](doc/Main.pdf). 
 + Kaggle Competition URL: [Kaggle URL](https://www.kaggle.com/c/talkingdata-adtracking-fraud-detection)
 ![image](figs/Title.png)
 ![image](figs/Feature.png)
