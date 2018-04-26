@@ -1,8 +1,12 @@
-train_xgboost <- function(traindata){
+train_xgboost <- function(traindata,nround = 200, cv.nfold = 5){
+  library("xgboost")
   # traindata has to be a matrix
   timestart <- Sys.time()
   # Data Preparation
-  xgb.train.data <- xgb.DMatrix(data = traindata[,-1],label = traindata[,1] - 1)
+  processed.data <- apply(traindata[,-c(7,8)], 2, as.numeric)
+  train.data     <- as.matrix(processed.data[,c("ip","app","device","os","channel","Hour")])
+  train.class    <- as.matrix(processed.data[,"is_attributed"])
+  xgb.train.data <- xgb.DMatrix(data = train.data,label = train.class)
   # Default Parameter 
   xgb_params <- list("objective" = "binary:logistic", 
                      "eval_metric" = "auc",          
@@ -29,3 +33,4 @@ train_xgboost <- function(traindata){
   runningtime <- timeend - timestart
   return(list(fit = xgb_fit, time = runningtime))
 }
+
